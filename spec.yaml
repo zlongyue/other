@@ -1,0 +1,25 @@
+apiVersion: 0.0
+kind: java
+os: linux
+abc:
+ path: galaxy-cetus
+spec:
+    name: galaxy-cetus
+    deployPath: /data/release/galaxy-cetus
+    files: 
+      - source: /
+        dest: "{{ abc.path }}"
+      - source: config/bootstrap.yml
+        dest: "{{ kind }}"
+    native:
+        start: 
+          - location: echo "start galaxy-cetus deploy"
+            timeout: 10
+            runas: root
+        end:
+          - location: echo "end galaxy-cetus deploy" 
+    install:       
+         ApplicationStart:  
+          - location:  sh run.sh start
+         ApplicationStop:  
+          - location:  sh run.sh stop
